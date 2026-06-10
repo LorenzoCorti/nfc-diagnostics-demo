@@ -1,225 +1,193 @@
 <!DOCTYPE html>
-
 <html lang="it">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Diagnostica Rapida</title>
-
   <style>
-
     body {
-
       margin: 0;
-
       font-family: Arial, sans-serif;
-
       background: #07111f;
-
       color: white;
-
     }
 
     .container {
-
       padding: 24px;
-
       max-width: 480px;
-
       margin: auto;
-
     }
 
     .badge {
-
       color: #00d4ff;
-
       margin-bottom: 8px;
-
     }
 
     h1 {
-
       margin-top: 0;
-
     }
 
     .grid {
-
       display: grid;
-
       grid-template-columns: 1fr 1fr;
-
       gap: 12px;
-
     }
 
     .card {
-
       background: #11263d;
-
       border: 1px solid #1d9bd1;
-
       border-radius: 16px;
-
       padding: 18px;
-
       box-shadow: 0 0 20px rgba(0, 212, 255, 0.12);
-
     }
 
     .label {
-
       color: #9fb7c9;
-
       font-size: 13px;
-
       text-transform: uppercase;
-
     }
 
     .value {
-
       font-size: 28px;
-
       font-weight: bold;
-
       margin-top: 8px;
-
     }
 
     .ok {
-
       color: #3cff8f;
-
     }
 
     .warning {
-
       color: #ffcc00;
+    }
 
+    .danger {
+      color: #ff5c5c;
+    }
+
+    .button {
+      display: block;
+      margin-top: 22px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #00aeea;
+      color: #00121f;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 0 24px rgba(0, 212, 255, 0.25);
+    }
+
+    .button:active {
+      transform: scale(0.98);
     }
 
     .footer {
-
       margin-top: 20px;
-
       font-size: 12px;
-
       color: #8ca3b5;
-
       text-align: center;
-
     }
-
   </style>
-
 </head>
-
 <body>
-
   <div class="container">
-
     <div class="badge">● Modalità demo locale</div>
-
     <h1>Diagnostica rapida</h1>
 
     <p>Snapshot stato macchina da QR / NFC</p>
 
     <div class="grid">
+      <div class="card">
+        <div class="label">Macchina</div>
+        <div class="value" id="machine">INV2407</div>
+      </div>
 
       <div class="card">
-
         <div class="label">Ingressi</div>
-
         <div class="value ok" id="inputs">8 / 8</div>
-
       </div>
 
       <div class="card">
-
         <div class="label">Uscite</div>
-
         <div class="value ok" id="outputs">6 / 6</div>
-
       </div>
 
       <div class="card">
-
         <div class="label">Allarmi</div>
-
         <div class="value ok" id="alarms">0</div>
-
       </div>
 
       <div class="card">
-
         <div class="label">Firmware</div>
-
         <div class="value" id="fw">v2.14.3</div>
-
       </div>
 
       <div class="card">
-
         <div class="label">Temperatura</div>
-
         <div class="value ok" id="temp">42.6 °C</div>
-
       </div>
 
       <div class="card">
-
         <div class="label">Stato</div>
-
         <div class="value ok" id="state">RUN</div>
-
       </div>
-
     </div>
+
+    <a href="#" class="button" id="mailButton">
+      Invia recap diagnostico via email
+    </a>
 
     <div class="footer">
-
       Nessuna app dedicata · Accesso via browser · Demo concept
-
     </div>
-
   </div>
 
   <script>
-
     const params = new URLSearchParams(window.location.search);
 
-    document.getElementById("inputs").textContent =
+    const machine = params.get("machine") || "INV2407";
+    const inputs = params.get("in") || "8 / 8";
+    const outputs = params.get("out") || "6 / 6";
+    const alarms = params.get("alarm") || "0";
+    const firmware = params.get("fw") || "v2.14.3";
+    const temperature = params.get("temp") || "42.6";
+    const state = params.get("state") || "RUN";
 
-      params.get("in") || "8 / 8";
+    document.getElementById("machine").textContent = machine;
+    document.getElementById("inputs").textContent = inputs;
+    document.getElementById("outputs").textContent = outputs;
+    document.getElementById("alarms").textContent = alarms;
+    document.getElementById("fw").textContent = firmware;
+    document.getElementById("temp").textContent = temperature + " °C";
+    document.getElementById("state").textContent = state;
 
-    document.getElementById("outputs").textContent =
+    const now = new Date().toLocaleString("it-IT");
 
-      params.get("out") || "6 / 6";
+    const subject = `Recap diagnostico macchina ${machine}`;
 
-    document.getElementById("alarms").textContent =
+    const body =
+`Recap diagnostico macchina
 
-      params.get("alarm") || "0";
+Macchina: ${machine}
+Stato: ${state}
+Ingressi: ${inputs}
+Uscite: ${outputs}
+Allarmi: ${alarms}
+Firmware: ${firmware}
+Temperatura: ${temperature} °C
 
-    document.getElementById("fw").textContent =
+Data lettura: ${now}
 
-      params.get("fw") || "v2.14.3";
+Demo concept:
+QR / NFC -> pagina web -> recap diagnostico via email`;
 
-    document.getElementById("temp").textContent =
+    const mailtoLink =
+      "mailto:" +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
 
-      (params.get("temp") || "42.6") + " °C";
-
-    document.getElementById("state").textContent =
-
-      params.get("state") || "RUN";
-
+    document.getElementById("mailButton").href = mailtoLink;
   </script>
-
 </body>
-
 </html>
