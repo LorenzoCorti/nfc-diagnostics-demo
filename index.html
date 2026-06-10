@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="it">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Diagnostica Rapida</title>
+
+  <style>
+
+    body {
+
+      margin: 0;
+
+      font-family: Arial, sans-serif;
+
+      background: #07111f;
+
+      color: white;
+
+    }
+
+    .container {
+
+      padding: 24px;
+
+      max-width: 480px;
+
+      margin: auto;
+
+    }
+
+    .badge {
+
+      color: #00d4ff;
+
+      margin-bottom: 8px;
+
+    }
+
+    h1 {
+
+      margin-top: 0;
+
+    }
+
+    .grid {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 12px;
+
+    }
+
+    .card {
+
+      background: #11263d;
+
+      border: 1px solid #1d9bd1;
+
+      border-radius: 16px;
+
+      padding: 18px;
+
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.12);
+
+    }
+
+    .label {
+
+      color: #9fb7c9;
+
+      font-size: 13px;
+
+      text-transform: uppercase;
+
+    }
+
+    .value {
+
+      font-size: 28px;
+
+      font-weight: bold;
+
+      margin-top: 8px;
+
+    }
+
+    .ok {
+
+      color: #3cff8f;
+
+    }
+
+    .warning {
+
+      color: #ffcc00;
+
+    }
+
+    .footer {
+
+      margin-top: 20px;
+
+      font-size: 12px;
+
+      color: #8ca3b5;
+
+      text-align: center;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="badge">● Modalità demo locale</div>
+
+    <h1>Diagnostica rapida</h1>
+
+    <p>Snapshot stato macchina da QR / NFC</p>
+
+    <div class="grid">
+
+      <div class="card">
+
+        <div class="label">Ingressi</div>
+
+        <div class="value ok" id="inputs">8 / 8</div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="label">Uscite</div>
+
+        <div class="value ok" id="outputs">6 / 6</div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="label">Allarmi</div>
+
+        <div class="value ok" id="alarms">0</div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="label">Firmware</div>
+
+        <div class="value" id="fw">v2.14.3</div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="label">Temperatura</div>
+
+        <div class="value ok" id="temp">42.6 °C</div>
+
+      </div>
+
+      <div class="card">
+
+        <div class="label">Stato</div>
+
+        <div class="value ok" id="state">RUN</div>
+
+      </div>
+
+    </div>
+
+    <div class="footer">
+
+      Nessuna app dedicata · Accesso via browser · Demo concept
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const params = new URLSearchParams(window.location.search);
+
+    document.getElementById("inputs").textContent =
+
+      params.get("in") || "8 / 8";
+
+    document.getElementById("outputs").textContent =
+
+      params.get("out") || "6 / 6";
+
+    document.getElementById("alarms").textContent =
+
+      params.get("alarm") || "0";
+
+    document.getElementById("fw").textContent =
+
+      params.get("fw") || "v2.14.3";
+
+    document.getElementById("temp").textContent =
+
+      (params.get("temp") || "42.6") + " °C";
+
+    document.getElementById("state").textContent =
+
+      params.get("state") || "RUN";
+
+  </script>
+
+</body>
+
+</html>
