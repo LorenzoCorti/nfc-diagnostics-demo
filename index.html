@@ -1,346 +1,68 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Diagnostica Rapida</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at top, #123052 0%, #07111f 45%, #030812 100%);
-      color: white;
-    }
-
-    .container {
-      padding: 24px;
-      max-width: 480px;
-      margin: auto;
-    }
-
-    .badge {
-      display: inline-block;
-      color: #00d4ff;
-      background: rgba(0, 212, 255, 0.08);
-      border: 1px solid rgba(0, 212, 255, 0.3);
-      padding: 8px 12px;
-      border-radius: 999px;
-      margin-bottom: 10px;
-      font-size: 13px;
-    }
-
-    .badge-danger {
-      color: #ff5c5c;
-      background: rgba(255, 92, 92, 0.12);
-      border: 1px solid rgba(255, 92, 92, 0.6);
-      box-shadow: 0 0 18px rgba(255, 92, 92, 0.25);
-      animation: pulse 1.4s infinite;
-    }
-
-    h1 {
-      margin-top: 6px;
-      margin-bottom: 8px;
-      font-size: 34px;
-      line-height: 1.05;
-    }
-
-    .subtitle {
-      color: #b8c7d6;
-      margin-top: 0;
-      margin-bottom: 20px;
-    }
-
-    .status-panel {
-      background: rgba(17, 38, 61, 0.75);
-      border: 1px solid rgba(0, 212, 255, 0.25);
-      border-radius: 18px;
-      padding: 14px;
-      margin-bottom: 16px;
-    }
-
-    .status-panel.alarm {
-      border-color: rgba(255, 92, 92, 0.8);
-      box-shadow: 0 0 24px rgba(255, 92, 92, 0.18);
-    }
-
-    .status-title {
-      font-size: 13px;
-      color: #9fb7c9;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .status-message {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .status-message.ok {
-      color: #3cff8f;
-    }
-
-    .status-message.danger {
-      color: #ff5c5c;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .card {
-      background: rgba(17, 38, 61, 0.88);
-      border: 1px solid #1d9bd1;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 0 20px rgba(0, 212, 255, 0.12);
-    }
-
-    .card.danger-card {
-      border-color: #ff5c5c;
-      box-shadow: 0 0 22px rgba(255, 92, 92, 0.22);
-      background:
-        linear-gradient(145deg, rgba(80, 20, 28, 0.92), rgba(17, 38, 61, 0.85));
-    }
-
-    .label {
-      color: #9fb7c9;
-      font-size: 13px;
-      text-transform: uppercase;
-    }
-
-    .value {
-      font-size: 28px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    .ok {
-      color: #3cff8f;
-    }
-
-    .warning {
-      color: #ffcc00;
-    }
-
-    .danger {
-      color: #ff5c5c;
-    }
-
-    .button {
-      display: block;
-      margin-top: 22px;
-      padding: 16px;
-      border-radius: 14px;
-      background: #00aeea;
-      color: #00121f;
-      text-align: center;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 24px rgba(0, 212, 255, 0.25);
-    }
-
-    .button-danger {
-      background: #ff5c5c;
-      color: #210000;
-      box-shadow: 0 0 24px rgba(255, 92, 92, 0.28);
-    }
-
-    .button:active {
-      transform: scale(0.98);
-    }
-
-    .footer {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #8ca3b5;
-      text-align: center;
-    }
-
-    @keyframes pulse {
-      0% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.72;
-        transform: scale(1.015);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Tecno-Gaz | Diagnostica macchina</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#ebf3f8;background:#0d1115}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 20% -10%,#133c4d,transparent 44%),#0d1115}
+main{max-width:700px;margin:auto;padding:24px 16px 48px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:25px}.logo{width:45px;height:45px;border:1px solid #269fc8;border-radius:12px;display:grid;place-items:center;color:#27cde7;font-weight:900}
+h1{font-size:1.35rem;margin:0}header p{margin:3px 0 0;color:#a0b4c1;font-size:.86rem}
+.card{background:#141d24;border:1px solid #2a3a45;border-radius:16px;padding:20px;margin:14px 0;box-shadow:0 10px 30px #0003}
+.card h2{margin:0 0 13px;font-size:1rem;color:#40d6ed}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.metric{border:1px solid #293c47;border-radius:11px;background:#10171c;padding:14px}.metric small{display:block;color:#9bb0bf;margin-bottom:7px}.metric b{font-size:1.3rem;overflow-wrap:anywhere}
+.row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #26343d}.row:last-child{border:0}.row span:first-child{color:#a8becb}.row span:last-child{text-align:right;overflow-wrap:anywhere}
+.alarm{color:#ff6876!important;font-weight:800}.ok{color:#5fe5b0!important}.muted{color:#91a4b1}.warn{border:1px solid #a24b59;border-radius:12px;background:#3b1c26;color:#ffd4d9;padding:12px 16px;margin:12px 0}
+button{cursor:pointer;color:white;background:#096bc4;border:0;padding:14px 19px;border-radius:10px;font-weight:700;font-size:1rem;width:100%;margin-top:13px}
+footer{color:#8098a5;font-size:.78rem;margin-top:25px;line-height:1.55}time{font-variant-numeric:tabular-nums}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.card{padding:15px}}
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="badge" id="modeBadge">● Modalità demo locale</div>
-
-    <h1>Diagnostica rapida</h1>
-    <p class="subtitle">Snapshot stato macchina da QR / NFC</p>
-
-    <div class="status-panel" id="statusPanel">
-      <div class="status-title">Stato diagnostico</div>
-      <div class="status-message ok" id="statusMessage">
-        Macchina operativa · Nessun allarme
-      </div>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="label">Macchina</div>
-        <div class="value" id="machine">INV2407</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Ingressi</div>
-        <div class="value ok" id="inputs">8 / 8</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Uscite</div>
-        <div class="value ok" id="outputs">6 / 6</div>
-      </div>
-
-      <div class="card" id="alarmsCard">
-        <div class="label">Allarmi</div>
-        <div class="value ok" id="alarms">0</div>
-      </div>
-
-      <div class="card">
-        <div class="label">Firmware</div>
-        <div class="value" id="fw">v2.14.3</div>
-      </div>
-
-      <div class="card" id="tempCard">
-        <div class="label">Temperatura</div>
-        <div class="value ok" id="temp">42.6 °C</div>
-      </div>
-
-      <div class="card" id="stateCard">
-        <div class="label">Stato</div>
-        <div class="value ok" id="state">RUN</div>
-      </div>
-    </div>
-
-    <a href="#" class="button" id="mailButton">
-      Invia recap diagnostico via email
-    </a>
-
-    <div class="footer">
-      Nessuna app dedicata · Accesso via browser · Demo concept
-    </div>
-  </div>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-
-    const machine = params.get("machine") || "INV2407";
-    const inputs = params.get("in") || "8 / 8";
-    const outputs = params.get("out") || "6 / 6";
-    const alarms = params.get("alarm") || "0";
-    const firmware = params.get("fw") || "v2.14.3";
-    const temperature = params.get("temp") || "42.6";
-    const state = (params.get("state") || "RUN").toUpperCase();
-
-    const alarmNumber = parseInt(alarms, 10) || 0;
-    const temperatureNumber = parseFloat(temperature) || 0;
-
-    const alarmActive =
-      alarmNumber > 0 ||
-      state === "FAULT" ||
-      state === "ALARM" ||
-      state === "ERROR";
-
-    const tempAlarm =
-      temperatureNumber >= 70;
-
-    const generalAlarm =
-      alarmActive || tempAlarm;
-
-    document.getElementById("machine").textContent = machine;
-    document.getElementById("inputs").textContent = inputs;
-    document.getElementById("outputs").textContent = outputs;
-    document.getElementById("alarms").textContent = alarms;
-    document.getElementById("fw").textContent = firmware;
-    document.getElementById("temp").textContent = temperature + " °C";
-    document.getElementById("state").textContent = state;
-
-    const modeBadge = document.getElementById("modeBadge");
-    const statusPanel = document.getElementById("statusPanel");
-    const statusMessage = document.getElementById("statusMessage");
-
-    const alarmsEl = document.getElementById("alarms");
-    const tempEl = document.getElementById("temp");
-    const stateEl = document.getElementById("state");
-
-    const alarmsCard = document.getElementById("alarmsCard");
-    const tempCard = document.getElementById("tempCard");
-    const stateCard = document.getElementById("stateCard");
-
-    const mailButton = document.getElementById("mailButton");
-
-    if (generalAlarm) {
-      modeBadge.textContent = "● ALLARME ATTIVO";
-      modeBadge.classList.add("badge-danger");
-
-      statusPanel.classList.add("alarm");
-      statusMessage.textContent = "Attenzione: stato macchina da verificare";
-      statusMessage.className = "status-message danger";
-
-      mailButton.classList.add("button-danger");
-      mailButton.textContent = "Invia segnalazione allarme via email";
-    }
-
-    if (alarmActive) {
-      alarmsEl.className = "value danger";
-      stateEl.className = "value danger";
-      alarmsCard.classList.add("danger-card");
-      stateCard.classList.add("danger-card");
-    } else {
-      alarmsEl.className = "value ok";
-      stateEl.className = "value ok";
-    }
-
-    if (tempAlarm || generalAlarm) {
-      tempEl.className = "value danger";
-      tempCard.classList.add("danger-card");
-    } else {
-      tempEl.className = "value ok";
-    }
-
-    const now = new Date().toLocaleString("it-IT");
-
-    const subject = generalAlarm
-      ? `ALLARME diagnostico macchina ${machine}`
-      : `Recap diagnostico macchina ${machine}`;
-
-    const body =
-`Recap diagnostico macchina
-
-Macchina: ${machine}
-Stato: ${state}
-Ingressi: ${inputs}
-Uscite: ${outputs}
-Allarmi: ${alarms}
-Firmware: ${firmware}
-Temperatura: ${temperature} °C
-Condizione generale: ${generalAlarm ? "ALLARME / VERIFICA RICHIESTA" : "OK"}
-
-Data lettura: ${now}
-
-Demo concept:
-QR / NFC -> pagina web -> recap diagnostico via email`;
-
-    const mailtoLink =
-      "mailto:" +
-      "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(body);
-
-    mailButton.href = mailtoLink;
-  </script>
+<main>
+<header><div class="logo">TG</div><div><h1>Diagnostica Tecno-Gaz</h1></div></header>
+<section class="card"><h2>Stato macchina</h2><div class="row"><span>Stato ciclo</span><span id="state">N/D</span></div><div class="row"><span>Allarme macchina</span><span id="alarm">N/D</span></div><div class="row"><span>Codici allarme</span><span>N/D</span></div><div class="row"><span>Ultimo comando</span><span id="command">N/D</span></div><div class="row"><span>I/O disponibili</span><span id="io">N/D</span></div><div class="row"><span>Portello</span><span>N/D</span></div></section>
+<section class="card"><h2>Misure camera</h2><div class="grid"><div class="metric"><small>Temperatura</small><b id="temp">N/D</b></div><div class="metric"><small>Pressione</small><b id="pressure">N/D</b></div></div></section>
+<div class="warn" id="warning" hidden></div>
+<button id="email" type="button">Invia report diagnostico via email</button>
+<footer>Il report viene preparato nel programma email dello smartphone. Nessun dato è inviato automaticamente. I valori non si aggiornano da soli: per una nuova lettura, aggiorna il QR sulla macchina.</footer>
+</main>
+<script>
+(()=>{'use strict';
+const params=new URLSearchParams(location.search),get=id=>document.getElementById(id),issues=[];
+const value=(key,min,max)=>{const all=params.getAll(key);if(all.length!==1)return null;const raw=all[0];if(!/^-?\d{1,12}$/.test(raw))return null;const n=Number(raw);return Number.isSafeInteger(n)&&n>=min&&n<=max?n:null};
+const names=['Non configurata','Pronta','Avvio','Riscaldamento','Vuoto 1','Preriscaldo 1','Vuoto 2','Preriscaldo 2','Vuoto 3','Preriscaldo 3','Stabilizzazione','Vuoto','Sterilizzazione','Scarico','Asciugatura','Completato','Guasto'];
+const commands=['Nessuno','Accettato','Rifiutato','I/O non configurati'];
+const fmtDate=date=>new Intl.DateTimeFormat('it-IT',{dateStyle:'medium',timeStyle:'medium'}).format(date);
+const openedText=fmtDate(new Date());let capturedText='N/D';
+const present=params.has('v')&&params.getAll('v').length===1&&params.get('v')==='1';
+const state=present?value('s',0,16):null;
+if(state!==null)get('state').textContent=names[state];
+const alarm=present?value('a',0,1):null;
+if(alarm!==null){get('alarm').textContent=alarm?'ALLARME ATTIVO':'Nessun allarme segnalato';get('alarm').className=alarm?'alarm':'ok';}
+const command=present?value('c',0,3):null;if(command!==null)get('command').textContent=commands[command];
+const io=present?value('io',0,1):null;if(io!==null)get('io').textContent=io?'Sì':'No';
+const temp=present?value('t',-100000,250000):null;if(temp!==null)get('temp').textContent=(temp/1000).toLocaleString('it-IT',{maximumFractionDigits:2})+' °C';
+const pressure=present?value('p',-1000000,2000000):null;if(pressure!==null)get('pressure').textContent=(pressure/100000).toLocaleString('it-IT',{maximumFractionDigits:3})+' bar';
+const dates=present?params.getAll('d'):[];
+if(dates.length===1&&/^\d{8}T\d{6}$/.test(dates[0])){
+ const s=dates[0],y=+s.slice(0,4),m=+s.slice(4,6),d=+s.slice(6,8),h=+s.slice(9,11),mi=+s.slice(11,13),sec=+s.slice(13,15);
+ const dt=new Date(y,m-1,d,h,mi,sec);
+ if(y>=2020&&y<=2099&&dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&dt.getHours()===h&&dt.getMinutes()===mi&&dt.getSeconds()===sec)capturedText=fmtDate(dt)+' (ora macchina)';
+ else issues.push('Data dello snapshot non valida.');
+}
+if(alarm===1)issues.push('Attenzione: la macchina segnala un allarme attivo.');
+if(issues.length){const warning=get('warning');warning.hidden=false;warning.textContent=issues.join(' ');}
+get('email').addEventListener('click',()=>{
+ const lines=['Tecno-Gaz — report diagnostico','Acquisizione: '+capturedText,'Apertura: '+openedText];
+ for(const [label,id] of [['Stato','state'],['Allarme','alarm'],['Comando','command'],['I/O','io'],['Temperatura','temp'],['Pressione','pressure']])lines.push(label+': '+get(id).textContent);
+ const href='mailto:?subject='+encodeURIComponent('Diagnostica Tecno-Gaz')+'&body='+encodeURIComponent(lines.join('\n'));
+ location.href=href;
+});
+})();
+</script>
 </body>
 </html>
