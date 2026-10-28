@@ -1,68 +1,547 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark">
-<title>Tecno-Gaz | Diagnostica macchina</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tecno-Gaz | Diagnostica</title>
+
 <style>
-:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#ebf3f8;background:#0d1115}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 20% -10%,#133c4d,transparent 44%),#0d1115}
-main{max-width:700px;margin:auto;padding:24px 16px 48px}
-header{display:flex;align-items:center;gap:12px;margin-bottom:25px}.logo{width:45px;height:45px;border:1px solid #269fc8;border-radius:12px;display:grid;place-items:center;color:#27cde7;font-weight:900}
-h1{font-size:1.35rem;margin:0}header p{margin:3px 0 0;color:#a0b4c1;font-size:.86rem}
-.card{background:#141d24;border:1px solid #2a3a45;border-radius:16px;padding:20px;margin:14px 0;box-shadow:0 10px 30px #0003}
-.card h2{margin:0 0 13px;font-size:1rem;color:#40d6ed}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.metric{border:1px solid #293c47;border-radius:11px;background:#10171c;padding:14px}.metric small{display:block;color:#9bb0bf;margin-bottom:7px}.metric b{font-size:1.3rem;overflow-wrap:anywhere}
-.row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #26343d}.row:last-child{border:0}.row span:first-child{color:#a8becb}.row span:last-child{text-align:right;overflow-wrap:anywhere}
-.alarm{color:#ff6876!important;font-weight:800}.ok{color:#5fe5b0!important}.muted{color:#91a4b1}.warn{border:1px solid #a24b59;border-radius:12px;background:#3b1c26;color:#ffd4d9;padding:12px 16px;margin:12px 0}
-button{cursor:pointer;color:white;background:#096bc4;border:0;padding:14px 19px;border-radius:10px;font-weight:700;font-size:1rem;width:100%;margin-top:13px}
-footer{color:#8098a5;font-size:.78rem;margin-top:25px;line-height:1.55}time{font-variant-numeric:tabular-nums}
-@media(max-width:390px){.grid{grid-template-columns:1fr}.card{padding:15px}}
+:root {
+  --bg: #07111f;
+  --panel: #11263d;
+  --blue: #00d4ff;
+  --green: #3cff8f;
+  --red: #ff5c5c;
+  --muted: #9fb7c9;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: white;
+  background: radial-gradient(
+    circle at top, #123052 0%,
+    #07111f 45%, #030812 100%
+  );
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+  padding: 24px 18px;
+}
+
+.brand {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 12px 0 6px;
+}
+
+.subtitle {
+  color: #b8c7d6;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+/* Navigazione */
+.tabs {
+  display: flex;
+  padding: 5px;
+  gap: 5px;
+  background: #11263d;
+  border-radius: 14px;
+  margin-bottom: 18px;
+}
+
+.tab {
+  position: relative;
+  flex: 1;
+  padding: 13px 7px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #9fb7c9;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #087fac;
+  color: white;
+}
+
+.tab .count {
+  display: inline-block;
+  background: var(--red);
+  color: white;
+  border-radius: 20px;
+  padding: 2px 6px;
+  margin-left: 4px;
+  font-size: 11px;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Stato generale */
+.status {
+  padding: 17px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  background: rgba(17,38,61,.88);
+  border: 1px solid rgba(0,212,255,.3);
+}
+
+.status.alarm {
+  background: rgba(80,20,28,.75);
+  border: 2px solid var(--red);
+  box-shadow: 0 0 22px rgba(255,92,92,.2);
+}
+
+.status-title {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.status-message {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.ok { color: var(--green); }
+.danger { color: var(--red); }
+.warning { color: #ffcc00; }
+
+/* Valori diagnostici */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.card {
+  background: rgba(17,38,61,.88);
+  border: 1px solid #1d9bd1;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.card.danger-card {
+  border-color: var(--red);
+  background: linear-gradient(
+    145deg, rgba(80,20,28,.92),
+    rgba(17,38,61,.85)
+  );
+}
+
+.label {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.value {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+}
+
+/* Scheda allarmi */
+.alarm-box {
+  background: rgba(80,20,28,.65);
+  border: 1px solid var(--red);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 15px;
+}
+
+.alarm-code {
+  display: inline-block;
+  background: var(--red);
+  color: #210000;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.alarm-box h2 { font-size: 21px; }
+
+.alarm-description {
+  color: #efc5cb;
+  line-height: 1.5;
+}
+
+.detail {
+  background: var(--panel);
+  padding: 16px;
+  border-radius: 14px;
+  margin-top: 12px;
+}
+
+.detail-title {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.detail-value {
+  margin-top: 7px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.empty-alarms {
+  padding: 30px 20px;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid rgba(60,255,143,.3);
+  border-radius: 16px;
+}
+
+.empty-alarms .symbol {
+  font-size: 44px;
+  color: var(--green);
+}
+
+/* Report */
+.button {
+  display: block;
+  margin-top: 22px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #00aeea;
+  color: #00121f;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.button-danger {
+  background: var(--red);
+  color: #210000;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 12px;
+  text-align: center;
+  color: #8ca3b5;
+  line-height: 1.5;
+}
 </style>
 </head>
+
 <body>
-<main>
-<header><div class="logo">TG</div><div><h1>Diagnostica Tecno-Gaz</h1></div></header>
-<section class="card"><h2>Stato macchina</h2><div class="row"><span>Stato ciclo</span><span id="state">N/D</span></div><div class="row"><span>Allarme macchina</span><span id="alarm">N/D</span></div><div class="row"><span>Codici allarme</span><span>N/D</span></div><div class="row"><span>Ultimo comando</span><span id="command">N/D</span></div><div class="row"><span>I/O disponibili</span><span id="io">N/D</span></div><div class="row"><span>Portello</span><span>N/D</span></div></section>
-<section class="card"><h2>Misure camera</h2><div class="grid"><div class="metric"><small>Temperatura</small><b id="temp">N/D</b></div><div class="metric"><small>Pressione</small><b id="pressure">N/D</b></div></div></section>
-<div class="warn" id="warning" hidden></div>
-<button id="email" type="button">Invia report diagnostico via email</button>
-<footer>Il report viene preparato nel programma email dello smartphone. Nessun dato è inviato automaticamente. I valori non si aggiornano da soli: per una nuova lettura, aggiorna il QR sulla macchina.</footer>
-</main>
+<div class="container">
+
+  <div class="brand">TECNO-GAZ · DIAGNOSTICS</div>
+  <h1>Diagnostica rapida</h1>
+  <p class="subtitle">
+    Stato macchina e diagnostica allarmi
+  </p>
+
+  <!-- Navigazione -->
+  <div class="tabs" role="tablist">
+    <button class="tab active"
+            id="tabDiagnostics"
+            role="tab"
+            aria-selected="true"
+            onclick="showTab('diagnostics')">
+      Diagnostica
+    </button>
+
+    <button class="tab"
+            id="tabAlarms"
+            role="tab"
+            aria-selected="false"
+            onclick="showTab('alarms')">
+      Allarmi <span id="alarmCount"></span>
+    </button>
+  </div>
+
+  <!-- DIAGNOSTICA -->
+  <section id="diagnostics" class="tab-content active"
+           role="tabpanel">
+
+    <div id="statusPanel" class="status">
+      <div class="status-title">Stato diagnostico</div>
+      <div id="statusMessage" class="status-message">
+        Lettura dati
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="label">Macchina</div>
+        <div class="value" id="machine">N/D</div>
+      </div>
+
+      <div class="card" id="tempCard">
+        <div class="label">Temperatura</div>
+        <div class="value" id="temp">N/D</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Pressione</div>
+        <div class="value" id="pressure">N/D</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Stato</div>
+        <div class="value" id="state">N/D</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Firmware</div>
+        <div class="value" id="fw">N/D</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Allarme temp.</div>
+        <div class="value" id="tempStatus">N/D</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALLARMI -->
+  <section id="alarms" class="tab-content"
+           role="tabpanel">
+
+    <div id="alarmsContent"></div>
+
+  </section>
+
+  <a class="button" id="mailButton">
+    Invia report diagnostico
+  </a>
+
+  <div class="footer">
+    Diagnostica Tecno-Gaz<br>
+    Dati acquisiti al momento della generazione del QR<br>
+    <span id="snapshotDate">Ora acquisizione: N/D</span>
+  </div>
+</div>
+
 <script>
-(()=>{'use strict';
-const params=new URLSearchParams(location.search),get=id=>document.getElementById(id),issues=[];
-const value=(key,min,max)=>{const all=params.getAll(key);if(all.length!==1)return null;const raw=all[0];if(!/^-?\d{1,12}$/.test(raw))return null;const n=Number(raw);return Number.isSafeInteger(n)&&n>=min&&n<=max?n:null};
-const names=['Non configurata','Pronta','Avvio','Riscaldamento','Vuoto 1','Preriscaldo 1','Vuoto 2','Preriscaldo 2','Vuoto 3','Preriscaldo 3','Stabilizzazione','Vuoto','Sterilizzazione','Scarico','Asciugatura','Completato','Guasto'];
-const commands=['Nessuno','Accettato','Rifiutato','I/O non configurati'];
-const fmtDate=date=>new Intl.DateTimeFormat('it-IT',{dateStyle:'medium',timeStyle:'medium'}).format(date);
-const openedText=fmtDate(new Date());let capturedText='N/D';
-const present=params.has('v')&&params.getAll('v').length===1&&params.get('v')==='1';
-const state=present?value('s',0,16):null;
-if(state!==null)get('state').textContent=names[state];
-const alarm=present?value('a',0,1):null;
-if(alarm!==null){get('alarm').textContent=alarm?'ALLARME ATTIVO':'Nessun allarme segnalato';get('alarm').className=alarm?'alarm':'ok';}
-const command=present?value('c',0,3):null;if(command!==null)get('command').textContent=commands[command];
-const io=present?value('io',0,1):null;if(io!==null)get('io').textContent=io?'Sì':'No';
-const temp=present?value('t',-100000,250000):null;if(temp!==null)get('temp').textContent=(temp/1000).toLocaleString('it-IT',{maximumFractionDigits:2})+' °C';
-const pressure=present?value('p',-1000000,2000000):null;if(pressure!==null)get('pressure').textContent=(pressure/100000).toLocaleString('it-IT',{maximumFractionDigits:3})+' bar';
-const dates=present?params.getAll('d'):[];
-if(dates.length===1&&/^\d{8}T\d{6}$/.test(dates[0])){
- const s=dates[0],y=+s.slice(0,4),m=+s.slice(4,6),d=+s.slice(6,8),h=+s.slice(9,11),mi=+s.slice(11,13),sec=+s.slice(13,15);
- const dt=new Date(y,m-1,d,h,mi,sec);
- if(y>=2020&&y<=2099&&dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&dt.getHours()===h&&dt.getMinutes()===mi&&dt.getSeconds()===sec)capturedText=fmtDate(dt)+' (ora macchina)';
- else issues.push('Data dello snapshot non valida.');
+"use strict";
+
+const params = new URLSearchParams(location.search);
+
+/*
+ * Parametri compatibili con il QR:
+ * machine = matricola
+ * temp    = temperatura camera in °C
+ * pressure= pressione in bar
+ * state   = stato macchina
+ * fw      = versione firmware
+ * ta      = 1 allarme temperatura, 0 assente
+ * ts      = timestamp ISO dello snapshot
+ *
+ * Parametri storici:
+ * alarm   = conteggio allarmi (non identifica
+ *           necessariamente un allarme temperatura)
+ */
+
+const get = key => {
+  const value = params.get(key);
+  return value === null || value.trim() === ""
+    ? null : value.trim();
+};
+
+const machine = get("machine");
+const temperature = get("temp");
+const pressure = get("pressure");
+const state = get("state");
+const firmware = get("fw");
+const timestamp = get("ts");
+
+const tempAlarmParam = get("ta");
+const tempAlarmKnown =
+  tempAlarmParam === "0" || tempAlarmParam === "1";
+const tempAlarm = tempAlarmParam === "1";
+
+function setText(id, value) {
+  document.getElementById(id).textContent =
+    value ?? "N/D";
 }
-if(alarm===1)issues.push('Attenzione: la macchina segnala un allarme attivo.');
-if(issues.length){const warning=get('warning');warning.hidden=false;warning.textContent=issues.join(' ');}
-get('email').addEventListener('click',()=>{
- const lines=['Tecno-Gaz — report diagnostico','Acquisizione: '+capturedText,'Apertura: '+openedText];
- for(const [label,id] of [['Stato','state'],['Allarme','alarm'],['Comando','command'],['I/O','io'],['Temperatura','temp'],['Pressione','pressure']])lines.push(label+': '+get(id).textContent);
- const href='mailto:?subject='+encodeURIComponent('Diagnostica Tecno-Gaz')+'&body='+encodeURIComponent(lines.join('\n'));
- location.href=href;
-});
-})();
+
+function validNumber(value) {
+  if (value === null ||
+      !/^-?\d+(\.\d+)?$/.test(value)) {
+    return null;
+  }
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+const tempValue = validNumber(temperature);
+const pressureValue = validNumber(pressure);
+
+setText("machine", machine);
+setText("temp", tempValue === null
+  ? "N/D" : tempValue.toFixed(1) + " °C");
+setText("pressure", pressureValue === null
+  ? "N/D" : pressureValue.toFixed(2) + " bar");
+setText("state", state ? state.toUpperCase() : null);
+setText("fw", firmware);
+setText("tempStatus",
+  !tempAlarmKnown ? "N/D" :
+  tempAlarm ? "ALLARME" : "OK"
+);
+
+const statusPanel = document.getElementById("statusPanel");
+const statusMessage = document.getElementById("statusMessage");
+const tempCard = document.getElementById("tempCard");
+const tempStatus = document.getElementById("tempStatus");
+const alarmsContent = document.getElementById("alarmsContent");
+const mailButton = document.getElementById("mailButton");
+
+if (tempAlarm) {
+  statusPanel.classList.add("alarm");
+  tempCard.classList.add("danger-card");
+
+  statusMessage.textContent = "ALLARME TEMPERATURA";
+  statusMessage.className = "status-message danger";
+  tempStatus.className = "value danger";
+
+  document.getElementById("alarmCount").textContent = "1";
+
+  alarmsContent.innerHTML = `
+    <div class="alarm-box">
+      <span class="alarm-code">TEMP</span>
+      <h2>Allarme temperatura</h2>
+      <p class="alarm-description">
+        Il sistema di controllo ha segnalato
+        un'anomalia relativa alla temperatura.
+      </p>
+    </div>
+
+    <div class="detail">
+      <div class="detail-title">Temperatura rilevata</div>
+      <div class="detail-value" id="alarmTemperature"></div>
+    </div>
+
+    <div class="detail">
+      <div class="detail-title">Stato macchina</div>
+      <div class="detail-value" id="alarmState"></div>
+    </div>
+  `;
+
+  setText("alarmTemperature",
+    tempValue === null
+      ? "N/D" : tempValue.toFixed(1) + " °C");
+  setText("alarmState",
+    state ? state.toUpperCase() : null);
+
+  mailButton.classList.add("button-danger");
+  mailButton.textContent = "Invia segnalazione allarme";
+
+} else if (tempAlarmKnown) {
+  statusMessage.textContent = "Nessun allarme temperatura";
+  statusMessage.className = "status-message ok";
+  tempStatus.className = "value ok";
+
+  alarmsContent.innerHTML = `
+    <div class="empty-alarms">
+      <div class="symbol">✓</div>
+      <h2>Nessun allarme temperatura</h2>
+      <p>Non risultano anomalie di temperatura
+      nello snapshot acquisito.</p>
+    </div>
+  `;
+} else {
+  statusMessage.textContent = "Stato allarme non disponibile";
+  statusMessage.className = "status-message warning";
+  tempStatus.className = "value warning";
+
+  alarmsContent.innerHTML = `
+    <div class="detail">
+      <div class="detail-title">Allarmi</div>
+      <p>Informazione sull'allarme temperatura
+      non disponibile nello snapshot.</p>
+    </div>
+  `;
+}
+
+/* Ora effettiva dello snapshot, se fornita */
+let snapshotDate = "N/D";
+
+if (timestamp) {
+  const date = new Date(timestamp);
+  if (!Number.isNaN(date.getTime())) {
+    snapshotDate = date.toLocaleString("it-IT");
+  }
+}
+
+setText("snapshotDate",
+  "Ora acquisizione: " + snapshotDate
+);
+
+/* Navigazione */
+function showTab(name) {
+  document.querySelectorAll(".tab-content")
+    .forEach(el => el.classList.remove("active"));
+
+  document.querySelectorAll(".tab")
+    .forEach(el => {
+      el.classList.remove("active");
+      el.setAttribute("aria-selected", "false");
+    });
+
+  document.getElementById(name).classList.add("active");
+
+  const tab = document.getElementById(
+    name === "alarms" ? "tabAlarms" : "tabDiagnostics"
+  );
+  tab.classList.add("active");
+  tab.setAttribute("aria-selected", "true");
+}
+
+/* Apertura automatica allarmi */
+if (tempAlarm) {
+  showTab("alarms");
+}
+
+/* Report email */
+const alarmText = !tempAlarmKnown
+  ? "NON DISPONIBILE"
+  : tempAlarm ? "ATTIVO" : "ASSENTE";
+
+const subject = tempAlarm
+  ? `Allarme temperatura Tecno-Gaz ${machine ?? ""}`
+  : `Diagnostica Tecno-Gaz ${machine ?? ""}`;
+
+const report = [
+  "REPORT DIAGNOSTICO TECNO-GAZ",
+  "",
+  `Macchina: ${machine ?? "N/D"}`,
+  `Firmware: ${firmware ?? "N/D"}`,
+  `Stato: ${state ?? "N/D"}`,
+  `Temperatura: ${tempValue === null ? "N/D" : tempValue + " °C"}`,
+  `Pressione: ${pressureValue === null ? "N/D" : pressureValue + " bar"}`,
+  `Allarme temperatura: ${alarmText}`,
+  `Acquisizione snapshot: ${snapshotDate}`,
+  "",
+  "Dati diagnostici acquisiti tramite QR."
+].join("\n");
+
+mailButton.href =
+  "mailto:?subject=" + encodeURIComponent(subject) +
+  "&body=" + encodeURIComponent(report);
 </script>
 </body>
 </html>
