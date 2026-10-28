@@ -4,243 +4,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tecno-Gaz | Diagnostica</title>
-
+<title>Tecno-Gaz | Diagnostica rapida</title>
 <style>
 :root {
-  --bg: #07111f;
-  --panel: #11263d;
-  --blue: #00d4ff;
-  --green: #3cff8f;
-  --red: #ff5c5c;
-  --muted: #9fb7c9;
+  --bg:#07111f;
+  --panel:#11263d;
+  --blue:#00d4ff;
+  --green:#3cff8f;
+  --red:#ff5c5c;
+  --muted:#9fb7c9;
 }
-
-* { box-sizing: border-box; }
-
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: white;
-  background: radial-gradient(
-    circle at top, #123052 0%,
-    #07111f 45%, #030812 100%
-  );
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background:radial-gradient(circle at top,
+    #123052 0%,#07111f 45%,#030812 100%);
 }
-
 .container {
-  max-width: 480px;
-  margin: auto;
-  padding: 24px 18px;
+  max-width:480px;
+  margin:auto;
+  padding:24px 18px;
 }
-
 .brand {
-  color: var(--blue);
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
+  color:var(--blue);
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:1.5px;
 }
-
 h1 {
-  font-size: 30px;
-  margin: 12px 0 6px;
+  font-size:32px;
+  margin:12px 0 8px;
 }
-
 .subtitle {
-  color: #b8c7d6;
-  font-size: 14px;
-  margin-bottom: 22px;
+  color:#b8c7d6;
+  font-size:14px;
+  margin:0 0 20px;
 }
-
-/* Navigazione */
 .tabs {
-  display: flex;
-  padding: 5px;
-  gap: 5px;
-  background: #11263d;
-  border-radius: 14px;
-  margin-bottom: 18px;
+  display:flex;
+  gap:5px;
+  padding:5px;
+  background:var(--panel);
+  border-radius:14px;
+  margin-bottom:18px;
 }
-
 .tab {
-  position: relative;
-  flex: 1;
-  padding: 13px 7px;
-  border: 0;
-  border-radius: 10px;
-  background: transparent;
-  color: #9fb7c9;
-  font-weight: bold;
-  cursor: pointer;
+  flex:1;
+  border:0;
+  padding:14px 8px;
+  border-radius:10px;
+  background:transparent;
+  color:var(--muted);
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
 }
-
 .tab.active {
-  background: #087fac;
-  color: white;
+  background:#087fac;
+  color:white;
 }
+.page { display:none; }
+.page.active { display:block; }
 
-.tab .count {
-  display: inline-block;
-  background: var(--red);
-  color: white;
-  border-radius: 20px;
-  padding: 2px 6px;
-  margin-left: 4px;
-  font-size: 11px;
-}
-
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-
-/* Stato generale */
 .status {
-  padding: 17px;
-  margin-bottom: 16px;
-  border-radius: 16px;
-  background: rgba(17,38,61,.88);
-  border: 1px solid rgba(0,212,255,.3);
+  background:rgba(17,38,61,.85);
+  border:1px solid rgba(0,212,255,.3);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
 }
-
-.status.alarm {
-  background: rgba(80,20,28,.75);
-  border: 2px solid var(--red);
-  box-shadow: 0 0 22px rgba(255,92,92,.2);
+.status.danger {
+  border:2px solid var(--red);
+  background:rgba(80,20,28,.8);
+  box-shadow:0 0 22px rgba(255,92,92,.2);
 }
-
-.status-title {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 8px;
-  text-transform: uppercase;
+.status-label {
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  margin-bottom:8px;
 }
-
-.status-message {
-  font-size: 19px;
-  font-weight: bold;
+.status-value {
+  font-size:19px;
+  font-weight:bold;
 }
+.ok { color:var(--green); }
+.red { color:var(--red); }
 
-.ok { color: var(--green); }
-.danger { color: var(--red); }
-.warning { color: #ffcc00; }
-
-/* Valori diagnostici */
 .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
-
 .card {
-  background: rgba(17,38,61,.88);
-  border: 1px solid #1d9bd1;
-  border-radius: 16px;
-  padding: 16px;
+  padding:17px;
+  border-radius:16px;
+  border:1px solid #1d9bd1;
+  background:rgba(17,38,61,.88);
 }
-
-.card.danger-card {
-  border-color: var(--red);
-  background: linear-gradient(
-    145deg, rgba(80,20,28,.92),
-    rgba(17,38,61,.85)
-  );
+.card.danger {
+  border-color:var(--red);
+  background:linear-gradient(145deg,
+    rgba(80,20,28,.92),rgba(17,38,61,.85));
 }
-
 .label {
-  color: var(--muted);
-  font-size: 12px;
-  text-transform: uppercase;
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
 }
-
 .value {
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 10px;
-  overflow-wrap: anywhere;
+  margin-top:9px;
+  font-size:25px;
+  font-weight:bold;
+  overflow-wrap:anywhere;
 }
+.full { grid-column:1/-1; }
 
-/* Scheda allarmi */
-.alarm-box {
-  background: rgba(80,20,28,.65);
-  border: 1px solid var(--red);
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 15px;
+.demo-badge {
+  display:inline-block;
+  padding:7px 12px;
+  border-radius:30px;
+  font-size:12px;
+  font-weight:bold;
+  color:#ff9d9d;
+  background:rgba(255,92,92,.13);
+  border:1px solid rgba(255,92,92,.55);
+  margin-bottom:12px;
 }
-
-.alarm-code {
-  display: inline-block;
-  background: var(--red);
-  color: #210000;
-  border-radius: 8px;
-  padding: 5px 10px;
-  font-weight: bold;
-  font-size: 13px;
+.alarm-details {
+  padding:17px;
+  background:var(--panel);
+  border-radius:16px;
+  margin-top:14px;
+  line-height:1.55;
 }
-
-.alarm-box h2 { font-size: 21px; }
-
-.alarm-description {
-  color: #efc5cb;
-  line-height: 1.5;
+.alarm-details h2 {
+  font-size:18px;
+  margin:0 0 10px;
 }
-
-.detail {
-  background: var(--panel);
-  padding: 16px;
-  border-radius: 14px;
-  margin-top: 12px;
+.alarm-details p {
+  color:#bfd0dc;
+  font-size:14px;
+  margin:8px 0;
 }
-
-.detail-title {
-  color: var(--muted);
-  font-size: 12px;
-  text-transform: uppercase;
-}
-
-.detail-value {
-  margin-top: 7px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.empty-alarms {
-  padding: 30px 20px;
-  text-align: center;
-  background: var(--panel);
-  border: 1px solid rgba(60,255,143,.3);
-  border-radius: 16px;
-}
-
-.empty-alarms .symbol {
-  font-size: 44px;
-  color: var(--green);
-}
-
-/* Report */
 .button {
-  display: block;
-  margin-top: 22px;
-  padding: 16px;
-  border-radius: 14px;
-  background: #00aeea;
-  color: #00121f;
-  text-align: center;
-  text-decoration: none;
-  font-weight: bold;
+  display:block;
+  width:100%;
+  margin-top:22px;
+  padding:16px;
+  border-radius:14px;
+  background:#00aeea;
+  color:#00121f;
+  text-align:center;
+  text-decoration:none;
+  font-weight:bold;
+  box-shadow:0 0 24px rgba(0,212,255,.17);
 }
-
-.button-danger {
-  background: var(--red);
-  color: #210000;
+.button.danger {
+  background:var(--red);
+  color:#210000;
+  box-shadow:0 0 24px rgba(255,92,92,.22);
 }
-
 .footer {
-  margin-top: 20px;
-  font-size: 12px;
-  text-align: center;
-  color: #8ca3b5;
-  line-height: 1.5;
+  margin-top:20px;
+  color:#8ca3b5;
+  text-align:center;
+  font-size:12px;
+  line-height:1.6;
 }
 </style>
 </head>
@@ -251,36 +184,25 @@ h1 {
   <div class="brand">TECNO-GAZ · DIAGNOSTICS</div>
   <h1>Diagnostica rapida</h1>
   <p class="subtitle">
-    Stato macchina e diagnostica allarmi
+    Informazioni macchina e anteprima allarmi
   </p>
 
-  <!-- Navigazione -->
-  <div class="tabs" role="tablist">
-    <button class="tab active"
-            id="tabDiagnostics"
-            role="tab"
-            aria-selected="true"
-            onclick="showTab('diagnostics')">
-      Diagnostica
-    </button>
+  <nav class="tabs" role="tablist">
+    <button id="btnDiag" class="tab active"
+      role="tab" aria-selected="true"
+      onclick="showTab('diag')">Diagnostica</button>
+    <button id="btnAlarm" class="tab"
+      role="tab" aria-selected="false"
+      onclick="showTab('alarm')">Allarmi</button>
+  </nav>
 
-    <button class="tab"
-            id="tabAlarms"
-            role="tab"
-            aria-selected="false"
-            onclick="showTab('alarms')">
-      Allarmi <span id="alarmCount"></span>
-    </button>
-  </div>
+  <!-- DIAGNOSTICA REALE -->
+  <section id="diag" class="page active" role="tabpanel">
 
-  <!-- DIAGNOSTICA -->
-  <section id="diagnostics" class="tab-content active"
-           role="tabpanel">
-
-    <div id="statusPanel" class="status">
-      <div class="status-title">Stato diagnostico</div>
-      <div id="statusMessage" class="status-message">
-        Lettura dati
+    <div class="status">
+      <div class="status-label">Dati diagnostici macchina</div>
+      <div class="status-value" id="statusText">
+        Informazioni snapshot
       </div>
     </div>
 
@@ -290,7 +212,12 @@ h1 {
         <div class="value" id="machine">N/D</div>
       </div>
 
-      <div class="card" id="tempCard">
+      <div class="card">
+        <div class="label">Stato</div>
+        <div class="value" id="state">N/D</div>
+      </div>
+
+      <div class="card">
         <div class="label">Temperatura</div>
         <div class="value" id="temp">N/D</div>
       </div>
@@ -301,39 +228,97 @@ h1 {
       </div>
 
       <div class="card">
-        <div class="label">Stato</div>
-        <div class="value" id="state">N/D</div>
+        <div class="label">Ingressi</div>
+        <div class="value" id="inputs">N/D</div>
       </div>
 
       <div class="card">
+        <div class="label">Uscite</div>
+        <div class="value" id="outputs">N/D</div>
+      </div>
+
+      <div class="card full">
         <div class="label">Firmware</div>
         <div class="value" id="fw">N/D</div>
       </div>
+    </div>
+
+    <a id="mailDiag" class="button">
+      Invia report diagnostico
+    </a>
+  </section>
+
+  <!-- ALLARME FITTIZIO -->
+  <section id="alarm" class="page" role="tabpanel">
+
+    <div class="demo-badge">
+      ● SIMULAZIONE ALLARME
+    </div>
+
+    <div class="status danger">
+      <div class="status-label">Stato diagnostico simulato</div>
+      <div class="status-value red">
+        ⚠ ALLARME TEMPERATURA
+      </div>
+      <p>
+        Esempio di visualizzazione in presenza
+        di un'anomalia di temperatura.
+      </p>
+    </div>
+
+    <div class="grid">
+      <div class="card danger">
+        <div class="label">Temperatura simulata</div>
+        <div class="value red">145.2 °C</div>
+      </div>
+
+      <div class="card danger">
+        <div class="label">Stato simulato</div>
+        <div class="value red">FAULT</div>
+      </div>
 
       <div class="card">
-        <div class="label">Allarme temp.</div>
-        <div class="value" id="tempStatus">N/D</div>
+        <div class="label">Codice esempio</div>
+        <div class="value">TEMP</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Allarmi simulati</div>
+        <div class="value red">1</div>
       </div>
     </div>
+
+    <div class="alarm-details">
+      <h2 class="red">Dettaglio allarme temperatura</h2>
+      <p>
+        <strong>Descrizione:</strong><br>
+        Anomalia relativa alla temperatura
+        rilevata dal sistema di controllo.
+      </p>
+      <p>
+        <strong>Informazioni:</strong><br>
+        Questa sezione mostra un esempio
+        di come potrebbero essere presentati
+        gli allarmi della sterilizzatrice.
+      </p>
+      <p>
+        I valori e il codice visualizzati
+        sono fittizi e non rappresentano
+        lo stato effettivo della macchina.
+      </p>
+    </div>
+
+    <a id="mailAlarm" class="button danger">
+      Invia esempio segnalazione allarme
+    </a>
   </section>
-
-  <!-- ALLARMI -->
-  <section id="alarms" class="tab-content"
-           role="tabpanel">
-
-    <div id="alarmsContent"></div>
-
-  </section>
-
-  <a class="button" id="mailButton">
-    Invia report diagnostico
-  </a>
 
   <div class="footer">
-    Diagnostica Tecno-Gaz<br>
-    Dati acquisiti al momento della generazione del QR<br>
-    <span id="snapshotDate">Ora acquisizione: N/D</span>
+    Tecno-Gaz · Diagnostica rapida<br>
+    Nessuna applicazione dedicata richiesta<br>
+    <span id="snapshotTime">Snapshot: N/D</span>
   </div>
+
 </div>
 
 <script>
@@ -341,159 +326,71 @@ h1 {
 
 const params = new URLSearchParams(location.search);
 
-/*
- * Parametri compatibili con il QR:
- * machine = matricola
- * temp    = temperatura camera in °C
- * pressure= pressione in bar
- * state   = stato macchina
- * fw      = versione firmware
- * ta      = 1 allarme temperatura, 0 assente
- * ts      = timestamp ISO dello snapshot
- *
- * Parametri storici:
- * alarm   = conteggio allarmi (non identifica
- *           necessariamente un allarme temperatura)
- */
-
-const get = key => {
-  const value = params.get(key);
-  return value === null || value.trim() === ""
-    ? null : value.trim();
-};
-
-const machine = get("machine");
-const temperature = get("temp");
-const pressure = get("pressure");
-const state = get("state");
-const firmware = get("fw");
-const timestamp = get("ts");
-
-const tempAlarmParam = get("ta");
-const tempAlarmKnown =
-  tempAlarmParam === "0" || tempAlarmParam === "1";
-const tempAlarm = tempAlarmParam === "1";
-
-function setText(id, value) {
-  document.getElementById(id).textContent =
-    value ?? "N/D";
+function param(key) {
+  const v = params.get(key);
+  return v && v.trim() ? v.trim() : null;
 }
 
-function validNumber(value) {
+function numberParam(value) {
   if (value === null ||
-      !/^-?\d+(\.\d+)?$/.test(value)) {
-    return null;
-  }
+      !/^-?\d+(\.\d+)?$/.test(value)) return null;
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
 }
 
-const tempValue = validNumber(temperature);
-const pressureValue = validNumber(pressure);
-
-setText("machine", machine);
-setText("temp", tempValue === null
-  ? "N/D" : tempValue.toFixed(1) + " °C");
-setText("pressure", pressureValue === null
-  ? "N/D" : pressureValue.toFixed(2) + " bar");
-setText("state", state ? state.toUpperCase() : null);
-setText("fw", firmware);
-setText("tempStatus",
-  !tempAlarmKnown ? "N/D" :
-  tempAlarm ? "ALLARME" : "OK"
-);
-
-const statusPanel = document.getElementById("statusPanel");
-const statusMessage = document.getElementById("statusMessage");
-const tempCard = document.getElementById("tempCard");
-const tempStatus = document.getElementById("tempStatus");
-const alarmsContent = document.getElementById("alarmsContent");
-const mailButton = document.getElementById("mailButton");
-
-if (tempAlarm) {
-  statusPanel.classList.add("alarm");
-  tempCard.classList.add("danger-card");
-
-  statusMessage.textContent = "ALLARME TEMPERATURA";
-  statusMessage.className = "status-message danger";
-  tempStatus.className = "value danger";
-
-  document.getElementById("alarmCount").textContent = "1";
-
-  alarmsContent.innerHTML = `
-    <div class="alarm-box">
-      <span class="alarm-code">TEMP</span>
-      <h2>Allarme temperatura</h2>
-      <p class="alarm-description">
-        Il sistema di controllo ha segnalato
-        un'anomalia relativa alla temperatura.
-      </p>
-    </div>
-
-    <div class="detail">
-      <div class="detail-title">Temperatura rilevata</div>
-      <div class="detail-value" id="alarmTemperature"></div>
-    </div>
-
-    <div class="detail">
-      <div class="detail-title">Stato macchina</div>
-      <div class="detail-value" id="alarmState"></div>
-    </div>
-  `;
-
-  setText("alarmTemperature",
-    tempValue === null
-      ? "N/D" : tempValue.toFixed(1) + " °C");
-  setText("alarmState",
-    state ? state.toUpperCase() : null);
-
-  mailButton.classList.add("button-danger");
-  mailButton.textContent = "Invia segnalazione allarme";
-
-} else if (tempAlarmKnown) {
-  statusMessage.textContent = "Nessun allarme temperatura";
-  statusMessage.className = "status-message ok";
-  tempStatus.className = "value ok";
-
-  alarmsContent.innerHTML = `
-    <div class="empty-alarms">
-      <div class="symbol">✓</div>
-      <h2>Nessun allarme temperatura</h2>
-      <p>Non risultano anomalie di temperatura
-      nello snapshot acquisito.</p>
-    </div>
-  `;
-} else {
-  statusMessage.textContent = "Stato allarme non disponibile";
-  statusMessage.className = "status-message warning";
-  tempStatus.className = "value warning";
-
-  alarmsContent.innerHTML = `
-    <div class="detail">
-      <div class="detail-title">Allarmi</div>
-      <p>Informazione sull'allarme temperatura
-      non disponibile nello snapshot.</p>
-    </div>
-  `;
+function text(id, value) {
+  document.getElementById(id).textContent =
+    value === null ? "N/D" : value;
 }
 
-/* Ora effettiva dello snapshot, se fornita */
-let snapshotDate = "N/D";
+/* Dati ricevuti esclusivamente dal QR */
+const machine = param("machine");
+const state = param("state");
+const fw = param("fw");
+const inputs = param("in");
+const outputs = param("out");
+const temp = numberParam(param("temp"));
+const pressure = numberParam(
+  param("pressure") ?? param("p")
+);
+const ts = param("ts");
 
-if (timestamp) {
-  const date = new Date(timestamp);
+/*
+ * Nessun valore inventato:
+ * se un parametro manca, viene mostrato N/D.
+ */
+text("machine", machine);
+text("state", state ? state.toUpperCase() : null);
+text("fw", fw);
+text("inputs", inputs);
+text("outputs", outputs);
+
+text("temp",
+  temp === null ? null : temp.toFixed(1) + " °C");
+
+text("pressure",
+  pressure === null ? null :
+    pressure.toFixed(2) + " bar");
+
+text("statusText",
+  state ? "Stato macchina: " + state.toUpperCase()
+        : "Snapshot non disponibile");
+
+/* Timestamp trasmesso dal firmware */
+let snapshotTime = "N/D";
+
+if (ts) {
+  const date = new Date(ts);
   if (!Number.isNaN(date.getTime())) {
-    snapshotDate = date.toLocaleString("it-IT");
+    snapshotTime = date.toLocaleString("it-IT");
   }
 }
 
-setText("snapshotDate",
-  "Ora acquisizione: " + snapshotDate
-);
+text("snapshotTime", "Snapshot: " + snapshotTime);
 
-/* Navigazione */
+/* Tab indipendenti */
 function showTab(name) {
-  document.querySelectorAll(".tab-content")
+  document.querySelectorAll(".page")
     .forEach(el => el.classList.remove("active"));
 
   document.querySelectorAll(".tab")
@@ -504,44 +401,56 @@ function showTab(name) {
 
   document.getElementById(name).classList.add("active");
 
-  const tab = document.getElementById(
-    name === "alarms" ? "tabAlarms" : "tabDiagnostics"
+  const selected = document.getElementById(
+    name === "diag" ? "btnDiag" : "btnAlarm"
   );
-  tab.classList.add("active");
-  tab.setAttribute("aria-selected", "true");
+  selected.classList.add("active");
+  selected.setAttribute("aria-selected", "true");
 }
 
-/* Apertura automatica allarmi */
-if (tempAlarm) {
-  showTab("alarms");
-}
-
-/* Report email */
-const alarmText = !tempAlarmKnown
-  ? "NON DISPONIBILE"
-  : tempAlarm ? "ATTIVO" : "ASSENTE";
-
-const subject = tempAlarm
-  ? `Allarme temperatura Tecno-Gaz ${machine ?? ""}`
-  : `Diagnostica Tecno-Gaz ${machine ?? ""}`;
-
+/* Report diagnostico reale */
 const report = [
   "REPORT DIAGNOSTICO TECNO-GAZ",
   "",
-  `Macchina: ${machine ?? "N/D"}`,
-  `Firmware: ${firmware ?? "N/D"}`,
-  `Stato: ${state ?? "N/D"}`,
-  `Temperatura: ${tempValue === null ? "N/D" : tempValue + " °C"}`,
-  `Pressione: ${pressureValue === null ? "N/D" : pressureValue + " bar"}`,
-  `Allarme temperatura: ${alarmText}`,
-  `Acquisizione snapshot: ${snapshotDate}`,
-  "",
-  "Dati diagnostici acquisiti tramite QR."
+  "Macchina: " + (machine ?? "N/D"),
+  "Firmware: " + (fw ?? "N/D"),
+  "Stato: " + (state ?? "N/D"),
+  "Temperatura: " +
+    (temp === null ? "N/D" : temp.toFixed(1) + " °C"),
+  "Pressione: " +
+    (pressure === null ? "N/D" :
+      pressure.toFixed(2) + " bar"),
+  "Ingressi: " + (inputs ?? "N/D"),
+  "Uscite: " + (outputs ?? "N/D"),
+  "Snapshot: " + snapshotTime
 ].join("\n");
 
-mailButton.href =
-  "mailto:?subject=" + encodeURIComponent(subject) +
+document.getElementById("mailDiag").href =
+  "mailto:?subject=" +
+  encodeURIComponent("Diagnostica Tecno-Gaz " +
+    (machine ?? "")) +
   "&body=" + encodeURIComponent(report);
+
+/* Report dimostrativo, separato dai dati reali */
+const demoReport = [
+  "SIMULAZIONE ALLARME TECNO-GAZ",
+  "",
+  "ATTENZIONE: dati esclusivamente dimostrativi.",
+  "",
+  "Codice esempio: TEMP",
+  "Descrizione: Anomalia temperatura",
+  "Temperatura simulata: 145.2 °C",
+  "Stato simulato: FAULT",
+  "",
+  "Non rappresenta lo stato reale della macchina."
+].join("\n");
+
+document.getElementById("mailAlarm").href =
+  "mailto:?subject=" +
+  encodeURIComponent(
+    "DEMO - Allarme temperatura Tecno-Gaz"
+  ) +
+  "&body=" + encodeURIComponent(demoReport);
 </script>
 </body>
 </html>
